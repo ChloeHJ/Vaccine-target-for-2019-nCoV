@@ -11,7 +11,6 @@ dir <- getwd()
 
 # read immunogenic peptide list from IEDB
 ImmuData_iedb <- read.csv("IEDB_epitope_Tcellpositive_human.csv") %>% filter(Object.Type == "Linear peptide") 
-ImmuData_iedb_assay <- read.csv("IEDB_epitope_Tcellpositiive_human_Tassay.csv")
 
 # read nCoV sequence fasta file 
 setwd("data/") 
@@ -48,7 +47,6 @@ all_iedb_grep.df <- melt(all_iedb_grep.list); colnames(all_iedb_grep.df) <- c("i
 all_iedb_grep.df <- all_iedb_grep.df %>% 
   inner_join(ImmuData_iedb, by = c("iedb_peptides" = "Description"))  %>%  
   filter(nchar(nCol_pattern) >5)
-all_iedb_grep_assay.df <- all_iedb_grep.df %>% inner_join(ImmuData_iedb_assay, by = c("iedb_peptides" = "Description")) 
 
 ########## local alignment between nCoV ORF and IEDB peptides #################
 library(Biostrings)
@@ -119,23 +117,10 @@ ggplot(match_all_iedb_nCol_table, aes(x=normalizedValue)) +
 match_all_iedb_nCol_table <- match_all_iedb_nCol_table[-which(nchar(match_all_iedb_nCol_table$iedb_peptides) <=3 ),]
 match_all_iedb_nCol_epitope_table <- match_all_iedb_nCol_table %>% #28
   inner_join(ImmuData_iedb, by = c("iedb_peptides" = "Description")) 
-match_all_iedb_nCol_assay_table <- match_all_iedb_nCol_table %>% 
-  inner_join(ImmuData_iedb_assay, by = c("iedb_peptides" = "Description")) 
-
-length(unique(match_all_iedb_nCol_epitope_table$iedb_peptides)) #28 iedb peptides
-length(unique(nonmatch_all_iedb_nCol_epitope_4$iedb_peptides)) #48 iedb peptides
-
 
 # merging data information - nonmatch 
 nonmatch_all_iedb_nCol_table <- nonmatch_all_iedb_nCol_table[-which(nchar(nonmatch_all_iedb_nCol_table$iedb_peptides) <=3 ),]
 nonmatch_all_iedb_nCol_epitope_table <- nonmatch_all_iedb_nCol_table %>%    #361802
   inner_join(ImmuData_iedb, by = c("iedb_peptides" = "Description"))
-nonmatch_all_iedb_nCol_assay_table <- nonmatch_all_iedb_nCol_table %>% 
-  inner_join(ImmuData_iedb_assay, by = c("iedb_peptides" = "Description")) 
-
-length(which(nonmatch_all_iedb_nCol_table$normalizedValue >= 4)) #48
-length(which(nonmatch_all_iedb_nCol_table$normalizedValue >= 5)) #11
-length(which(nonmatch_all_iedb_nCol_table$normalizedValue >= 6))  #0
-
 
 
