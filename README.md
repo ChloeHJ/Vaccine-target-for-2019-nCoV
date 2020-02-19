@@ -17,7 +17,7 @@ The src/ contains:
 3. Code for de novo search of 9-mer 2019-nCoV peptides that have recognition potential against 1G4 CD8+ TCR molecule by Binding/Activation/Killing positional weight matrices.
 
 
-The Supplementary Tables/ contains: 
+The data tables/ contains: 
 - Table 1. nCoV peptides having exact match with immunogenic SARS CoV peptides
 - Table 2. nCoV peptides with high sequence similarity with immunogenic IEDB peptides
 - Table 3. de novo search on 9-mer nCoV for immunogenic peptides by NetMHCpan and iPred
